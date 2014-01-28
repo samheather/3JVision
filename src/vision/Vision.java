@@ -8,10 +8,6 @@ import org.lwjgl.input.Keyboard;
 
 public class Vision {
 
-	public Vision() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/**
 	 * When exit indicated, done with window, stop rendering etc.
 	 */
@@ -25,19 +21,16 @@ public class Vision {
      * Rotation angle for the cube.
      */
     private static float cubeRotationX;
-    private DisplayMode displayMode;
+    private static float cubeRotationY;
     private static LocateFace lf;
     private static float distance;
     private static float xRotateScaleFactor = (float) 0.3;
+    private static float yRotateScaleFactor = (float) 0.3;
 
     public static void main(String args[]) {
         Vision v = new Vision();
         lf = new LocateFace();
         v.run();
-//    	while (1==1) {
-//
-//    		}
-//    	}
     }
     
     public void run() {
@@ -45,10 +38,9 @@ public class Vision {
             init();
             while (!done) {
         		if(lf.getLocation()) {
-        			System.out.println(lf.getMainFace());
         			distance=lf.getDistance();
         			cubeRotationX=lf.getHorizontalAngle()*xRotateScaleFactor;
-        			System.out.println(distance);
+        			cubeRotationY=lf.getVerticalAngle()*yRotateScaleFactor;
         		}
                 mainloop();
                 render();
@@ -76,8 +68,9 @@ public class Vision {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);          // Clear The Screen And The Depth Buffer
 
         GL11.glLoadIdentity();                          // Reset The Current Modelview Matrix
-        GL11.glTranslatef(0.0f,0.0f,-7.0f+(distance/200));             // Move Right 1.5 Units And Into The Screen 6.0
+        GL11.glTranslatef(0.0f,0.0f,-9.0f+(distance/120));             // Move Right 1.5 Units And Into The Screen 6.0
         GL11.glRotatef(cubeRotationX,0.0f,1.0f,0.0f);               // Rotate The Quad On The X axis ( NEW )
+        GL11.glRotatef(cubeRotationY,1.0f,0.0f,0.0f);
         GL11.glColor3f(0.5f,0.5f,1.0f);                 // Set The Color To Blue One Time Only
         GL11.glBegin(GL11.GL_QUADS);                        // Draw A Quad
             GL11.glColor3f(0.0f,1.0f,0.0f);             // Set The Color To Green
@@ -116,15 +109,6 @@ public class Vision {
     }
     private void createWindow() throws Exception {
     	Display.setFullscreen(false);
-        DisplayMode d[] = Display.getAvailableDisplayModes();
-        for (int i = 0; i < d.length; i++) {
-            if (d[i].getWidth() == 640
-                && d[i].getHeight() == 480
-                && d[i].getBitsPerPixel() == 32) {
-                displayMode = d[i];
-                break;
-            }
-        }
         DisplayMode squareDisplayMode = new DisplayMode(640,640);
         Display.setDisplayMode(squareDisplayMode);
         Display.setTitle(windowTitle);
