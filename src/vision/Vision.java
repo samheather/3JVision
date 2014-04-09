@@ -29,6 +29,8 @@ public class Vision {
     private static float distance;
     private static float xRotateScaleFactor = (float) 0.3;
     private static float yRotateScaleFactor = (float) 0.3;
+    
+    private boolean errorCorrectedFaceTracking = true;
 
     /**
      * Main function - creates instance of vision and LocateFace, then runs.
@@ -48,10 +50,16 @@ public class Vision {
         try {
             init();
             while (!done) {
-        		if(lf.getLocation()) {
-        			distance=lf.getDistance();
-        			cubeRotationX=lf.getHorizontalAngle()*xRotateScaleFactor;
-        			cubeRotationY=lf.getVerticalAngle()*yRotateScaleFactor;
+        		if(lf.updateFacePosition()) {
+        			distance=lf.getImmediateDistance(errorCorrectedFaceTracking);
+        			cubeRotationX=lf.getImmediateHorizontalAngle(errorCorrectedFaceTracking)*xRotateScaleFactor;
+        			cubeRotationY=lf.getImmediateVerticalAngle(errorCorrectedFaceTracking)*yRotateScaleFactor;
+        			
+        			// Print live statistics
+//        			System.out.println("Distance, Horizontal Angle, Vertical angle: " +
+//        			lf.getImmediateDistance(errorCorrectedFaceTracking) + "   " +
+//        			lf.getImmediateHorizontalAngle(errorCorrectedFaceTracking) + "   " +
+//        			lf.getImmediateVerticalAngle(errorCorrectedFaceTracking));
         		}
                 mainloop();
                 render();

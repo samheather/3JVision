@@ -8,10 +8,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/lwjgl_util.jar"/>
-	<classpathentry kind="lib" path="lib/opencv/2.4.7.1/share/OpenCV/java/opencv-247.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="3JVision/lib/opencv/2.4.7.1/share/OpenCV/java"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/OpenCV248CMake"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
