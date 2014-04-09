@@ -12,6 +12,12 @@ import org.opencv.objdetect.CascadeClassifier;
 import java.io.File;
 import java.util.Arrays;
 
+/**
+ * Class for providing a constant stream of positions of a users face with the
+ * option for advanced error detection of outliers and error correction.
+ * @author Samuel Heather (sam@heather.sh)
+ * © 2014 Samuel Heather - All Rights Reserved.
+ */
 public class LocateFace {
 	
 	private VideoCapture vc;
@@ -34,6 +40,10 @@ public class LocateFace {
 	
 	private int outliersOrErrors = 0;
 
+	/**
+	 * Constructor for LocateFace - sets up OpenCV, sets min and max face sizes
+	 * and pre-initialises the Last Datapoints Arrays.
+	 */
 	public LocateFace() {
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		vc = new VideoCapture(0);
@@ -88,6 +98,12 @@ public class LocateFace {
 		}
 	}
 	
+	/**
+	 * Adds a new value to an array of the previous 5 values for a parameter, after
+	 * shuffling the previous elements to accommodate this.
+	 * @param newValue
+	 * @param lastFive
+	 */
 	public void addToLastFive(float newValue, float[] lastFive) {
 		System.out.println(outliersOrErrors);
 		// Check if resetting outliers
@@ -109,6 +125,12 @@ public class LocateFace {
 		lastFive[0] = newValue;
 	}
 	
+	/**
+	 * Returns the mean of the 5 objects in the Last Datapoints arrays, ignoring
+	 * (and accommodating for) unfilled spaces in the array.
+	 * @param lastFive
+	 * @return
+	 */
 	public float meanOfLastFive(float[] lastFive) {
 		float count = 0;
 		int divisor = 0;
